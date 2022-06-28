@@ -150,7 +150,7 @@
                                         <p class="control">
                                             <button class="button is-danger" @click="eliminar(articulo)">
                                                 <span class="is-hidden-mobile">
-                                                    Dar de baja&nbsp;&nbsp;
+                                                    Eliminar&nbsp;&nbsp;
                                                 </span>
                                                 <span class="icon">
                                                     <i class="fas fa-trash"></i>
@@ -219,7 +219,7 @@
                                             <div class="dropdown-content">
                                                 <div class="dropdown-item">
                                                     <button class="button is-danger" @click="editar(articulo)">
-                                                        Dar de baja&nbsp;&nbsp;<span class="icon">
+                                                        Eliminar&nbsp;&nbsp;<span class="icon">
                                                             <i class="fas fa-trash"></i>
                                                         </span>
                                                     </button>

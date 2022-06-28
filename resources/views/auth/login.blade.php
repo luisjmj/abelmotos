@@ -58,7 +58,8 @@
                     @include("notificacion")
                     <div class="box">
                         <figure class="avatar" style="padding: 0">
-                            <img style="width: 130px;" src="{{url("/img/logo-cuadrado.jpg") }}">
+                            <!-- <img style="width: 130px;" src="{{url("/img/logo-cuadrado.jpg") }}"> -->
+                            ABEL MOTOS
                         </figure>
                         <form method="POST" action="{{ route('login') }}">
                             @csrf

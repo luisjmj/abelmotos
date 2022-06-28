@@ -4,7 +4,7 @@
     <div class="container" id="app">
         <div class="columns">
             <div class="column">
-                <h1 class="is-size-1">Dar de baja un artículo</h1>
+                <h1 class="is-size-1">Eliminar un artículo</h1>
             </div>
         </div>
         <div class="columns">

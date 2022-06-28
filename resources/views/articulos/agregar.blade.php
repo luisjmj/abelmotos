@@ -21,9 +21,9 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label">Número/folio de comprobante</label>
+                            <label class="label">Número de factura</label>
                             <div class="control">
-                                <input placeholder="Folio o número" v-model="articulo.numeroFolioComprobante"
+                                <input placeholder="Numero de factura" v-model="articulo.numeroFolioComprobante"
                                        autocomplete="off"
                                        class="input" type="text">
                             </div>
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Costo de adquisición</label>
+                                    <label class="label">Precio</label>
                                     <div class="control">
                                         <input placeholder="Precio de adquisición" v-model="articulo.costoAdquisicion"
                                                autocomplete="off"

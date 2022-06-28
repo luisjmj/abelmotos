@@ -25,9 +25,7 @@
     <nav class="navbar is-transparent has-shadow is-spaced">
         <div class="navbar-brand">
             <a class="navbar-item" href="#">
-                <img class="logo" style="max-height: 100%;" src="{{url("/img/logo.png") }}"
-                     alt="Aquí el logotipo de la empresa"
-                     width="150" height="20">
+                <strong>ABEL MOTOS</strong>
             </a>
             <div id="intercambiarMenu" class="navbar-burger burger" data-target="menuPrincipal">
                 <span></span>
