@@ -197,6 +197,7 @@ class ArticulosController extends Controller
     {
         $data = [
             'articulo' => $articulo,
+            'totalUnidades' => $articulo->unidadesEnInventario(),
         ];
 
         return view('articulos.mostrar-inventario', $data);

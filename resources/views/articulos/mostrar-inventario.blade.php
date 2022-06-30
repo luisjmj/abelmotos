@@ -7,9 +7,7 @@
                 <div class="notification">
                     <div class="columns is-vcentered">
                         <div class="column">
-                            @verbatim
-                                <h4 class="is-size-4">inventarios ({{paginacion.total}})</h4>
-                            @endverbatim
+                            <h4 class="is-size-4">Inventario {{$totalUnidades}} Unidades</h4>
                         </div>
                         <div class="column">
                             <div class="field has-addons">

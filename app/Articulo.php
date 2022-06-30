@@ -24,4 +24,9 @@ class Articulo extends Model
     {
         return $this->hasMany(ArticuloInventario::class,'articulo_id');
     }
+
+    public function unidadesEnInventario()
+    {
+        return $this->inventario->sum('cantidad');
+    }
 }
