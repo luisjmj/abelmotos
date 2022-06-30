@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\AdjuntoDeEliminacionDeArticulo;
 use App\Articulo;
 use App\ArticuloDadoDeBaja;
+use App\ArticuloInventario;
 use App\FotoDeArticulo;
 use App\Http\Requests\AgregarArticuloDeInventarioRequest;
 use App\Http\Requests\DarArticuloDeBajaRequest;
 use App\Http\Requests\GuardarCambiosDeArticuloRequest;
 use App\Http\Requests\SubirFotosDeArticulosRequest;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use function view;
 
 class ArticulosController extends Controller
 {
@@ -187,5 +190,21 @@ class ArticulosController extends Controller
         return redirect()->route("articulos")
             ->with("mensaje", "Artículo dado de baja")
             ->with("tipo", "success");
+    }
+
+
+    public function mostrarInventario(Articulo $articulo)
+    {
+        $data = [
+            'articulo' => $articulo,
+        ];
+
+        return view('articulos.mostrar-inventario', $data);
+    }
+
+    public function buscarInventario(Articulo $articulo): LengthAwarePaginator
+    {
+        return $articulo->inventario()
+            ->paginate(Config::get("constantes.paginas_en_paginacion"));
     }
 }

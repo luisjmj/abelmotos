@@ -148,6 +148,16 @@
                                             </button>
                                         </p>
                                         <p class="control">
+                                            <button class="button is-success" @click="inventario(articulo)">
+                                                <span class="is-hidden-mobile">
+                                                    Inventario&nbsp;&nbsp;
+                                                </span>
+                                                <span class="icon">
+                                                    <i class="fas fa-edit"></i>
+                                                </span>
+                                            </button>
+                                        </p>
+                                        <p class="control">
                                             <button class="button is-danger" @click="eliminar(articulo)">
                                                 <span class="is-hidden-mobile">
                                                     Eliminar&nbsp;&nbsp;

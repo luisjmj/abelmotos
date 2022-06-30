@@ -15,20 +15,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const RUTA_EDITAR_ARTICULO = URL_BASE + "/articulos/editar",
-    RUTA_FOTOS_ARTICULO = URL_BASE + "/articulos/fotos",
-    RUTA_INVENTARIO_ARTICULO = URL_BASE + "/articulos/inventario",
-    RUTA_ELIMINAR_ARTICULO = URL_BASE + "/articulos/eliminar",
-    RUTA_FOTO_MOSTRAR_ARTICULO = URL_BASE + "/foto/articulo",
-    TARJETAS_MOSTRAR_POR_FILA = 2;
+const RUTA_EDITAR_INVENTARIO = URL_BASE + "/inventarios/editar";
 new Vue({
     el: "#app",
     data: () => ({
         buscando: false,
-        articulos: [],
-        gruposDeArticulos: [],
+        inventarios: [],
         numeroDeElementosMarcados: 0,
-        rutaBaseFoto: RUTA_FOTO_MOSTRAR_ARTICULO,
         cargando: {
             eliminandoMuchos: false,
             lista: false,
@@ -49,24 +42,10 @@ new Vue({
     },
     computed: {
         deberiaDeshabilitarBusqueda() {
-            return this.articulos.length <= 0 && !this.busqueda;
+            return this.inventarios.length <= 0 && !this.busqueda;
         }
     },
     methods: {
-        deberiaAbrirDiv(index) {
-            let iteracion = index + 1;
-            let resultado = iteracion % TARJETAS_MOSTRAR_POR_FILA === 1;
-            console.log("Abrir?PAra %d regreso %s", index, resultado);
-            return resultado;
-
-        },
-        deberiaCerrarDiv(index) {
-            let iteracion = index + 1;
-            let ultimo = iteracion === this.articulos.length;
-            let resultado = (iteracion % TARJETAS_MOSTRAR_POR_FILA === 0 && iteracion !== 0) || (ultimo && this.articulos.length % TARJETAS_MOSTRAR_POR_FILA !== 0);
-            console.log("Cerrar?PAra %d regreso %s", index, resultado);
-            return resultado;
-        },
         puedeAvanzarPaginacion() {
             return this.paginacion.actual < this.paginacion.ultima;
         },
@@ -90,98 +69,77 @@ new Vue({
         buscar: debounce(function () {
             if (this.busqueda && !this.buscando) {
                 this.buscando = true;
-                this.consultarArticulosConUrl(`/articulos/buscar/${encodeURIComponent(this.busqueda)}`)
+                this.consultarInventariosConUrl(`/articulos/inventario/${window.articuloId}/buscar/`)
                     .finally(() => this.buscando = false);
             } else {
                 this.refrescarSinQueImporteBusquedaOPagina();
             }
         }, 500),
-        editar(articulo) {
-            window.location.href = `${RUTA_EDITAR_ARTICULO}/${articulo.id}`;
+        editar(inventario) {
+            window.location.href = `${RUTA_EDITAR_INVENTARIO}/${inventario.id}`;
         },
-        inventario(articulo) {
-            window.location.href = `${RUTA_INVENTARIO_ARTICULO}/${articulo.id}`;
-        },
-        administrarFotos(articulo) {
-            window.location.href = `${RUTA_FOTOS_ARTICULO}/${articulo.id}`;
-        },
-        eliminar(articulo) {
-            window.location.href = `${RUTA_ELIMINAR_ARTICULO}/${articulo.id}`;
-        },
-        alternarMenu(articulo) {
-            Vue.set(articulo, "mostrarMenu", !articulo.mostrarMenu);
-        },
-        ocultarMenu(articulo) {
-            /*
-            * Si se oculta inmediatamente cuando se selecciona una opción del menú, el
-            * click de dicha opción no se dispara
-            *
-            * Si no se ocultara en el blur, se quedaría abierto cuando se hace click en otro lugar
-            *
-            * La solución es esperar 200 ms para ocultarlo, así, en caso de que se seleccione se
-            * dispara el click. Y si no se selecciona, se oculta igualmente en 200 ms sin que el usuario
-             * note esta espera ;)
-            * */
-            setTimeout(function () {
-                Vue.set(articulo, "mostrarMenu", false);
-            }, 200);
-        },
-        eliminarMarcados() {
+        eliminarMarcadas() {
             if (!confirm("¿Eliminar todos los elementos marcados?")) return;
-            let arregloParaEliminar = this.articulos.filter(articulo => articulo.marcado).map(articulo => articulo.id);
+            let arregloParaEliminar = this.inventarios.filter(inventario => inventario.marcada).map(inventario => inventario.id);
             this.cargando.eliminandoMuchos = true;
-            HTTP.post("/articulos/eliminar", arregloParaEliminar)
+            HTTP.post("/inventarios/eliminar", arregloParaEliminar)
                 .then(resultado => {
 
                 })
                 .finally(() => {
-                    this.desmarcarTodos();
+                    this.desmarcarTodas();
                     this.refrescarSinQueImporteBusquedaOPagina();
                     this.cargando.eliminandoMuchos = false;
                 });
         },
         onBotonParaMarcarClickeado() {
-            if (this.articulos.some(articulo => articulo.marcado)) {
-                this.desmarcarTodos();
+            if (this.inventarios.some(inventario => inventario.marcada)) {
+                this.desmarcarTodas();
             } else {
-                this.marcarTodos();
+                this.marcarTodas();
             }
         },
-        marcarTodos() {
-            this.numeroDeElementosMarcados = this.articulos.length;
-            this.articulos.forEach(articulo => {
-                Vue.set(articulo, "marcado", true);
+        marcarTodas() {
+            this.numeroDeElementosMarcados = this.inventarios.length;
+            this.inventarios.forEach(inventario => {
+                Vue.set(inventario, "marcada", true);
             });
         },
-        desmarcarTodos() {
+        desmarcarTodas() {
             this.numeroDeElementosMarcados = 0;
-            this.articulos.forEach(articulo => {
-                Vue.set(articulo, "marcado", false);
+            this.inventarios.forEach(inventario => {
+                Vue.set(inventario, "marcada", false);
             });
         },
-        invertirEstado(articulo) {
+        invertirEstado(inventario) {
             // Si está marcada, ahora estará desmarcada
-            if (articulo.marcado) this.numeroDeElementosMarcados--;
+            if (inventario.marcada) this.numeroDeElementosMarcados--;
             else this.numeroDeElementosMarcados++;
-            Vue.set(articulo, "marcado", !articulo.marcado);
+            Vue.set(inventario, "marcada", !inventario.marcada);
+        },
+        eliminar(inventario) {
+            if (!confirm(`¿Eliminar área ${inventario.nombre}?`)) return;
+            this.desmarcarTodas();
+            let {id} = inventario;
+            Vue.set(inventario, "eliminando", true);
+            HTTP.delete(`/inventario/${id}`)
+                .then(resultado => {
+
+                })
+                .finally(() => {
+                    this.refrescarSinQueImporteBusquedaOPagina();
+                })
         },
         refrescarSinQueImporteBusquedaOPagina() {
-            let url = this.busqueda ? `/articulos/buscar/${encodeURIComponent(this.busqueda)}?page=${this.paginacion.actual}` : "/articulos";
-            this.consultarArticulosConUrl(url);
+            let url = this.busqueda ? `/articulos/inventario/${window.articuloId}/buscar/?page=${this.paginacion.actual}` : `/articulos/inventario/${window.articuloId}/buscar/`;
+            this.consultarInventariosConUrl(url);
         },
-        consultarArticulosConUrl(url) {
-            this.desmarcarTodos();
+        consultarInventariosConUrl(url) {
+            this.desmarcarTodas();
             this.cargando.lista = true;
             return HTTP.get(url)
                 .then(respuesta => {
-                    // this.articulos = respuesta.data;
-                    let articulos = [];
-                    let longitud = respuesta.data.length;
-                    for (let i = 0; i < longitud; i += TARJETAS_MOSTRAR_POR_FILA) {
-                        articulos.push(respuesta.data.slice(i, i + TARJETAS_MOSTRAR_POR_FILA));
-                    }
-                    this.articulos = articulos;
-                    console.log(this.gruposDeArticulos);
+                    this.inventarios = respuesta.data;
                     this.establecerPaginacion(respuesta);
                 })
                 .finally(() => this.cargando.lista = false);
@@ -196,7 +154,7 @@ new Vue({
         },
         irALaPagina(pagina) {
             this.cargando.paginacion = true;
-            this.consultarArticulosConUrl("/articulos?page=" + pagina).finally(() => this.cargando.paginacion = false);
+            this.consultarInventariosConUrl("/inventarios?page=" + pagina).finally(() => this.cargando.paginacion = false);
         },
         prepararArregloParaPaginacion() {
 
