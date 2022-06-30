@@ -15,21 +15,18 @@ class ArticuloSeeder extends Seeder
     {
         $articulos = [
             [
-                'costo' => 100,
+                'precio' => 100,
             ],
             [
-                'costo' => 150,
+                'precio' => 150,
             ]
         ];
 
         $area = Area::first();
-        $now = now()->subDay(1);
 
         foreach ($articulos as $index => $articulo) {
             $index ++;
             $instanciaArticulo = new Articulo();
-
-            $instanciaArticulo->fecha_adquisicion = $now;
 
             $instanciaArticulo->codigo = 'TEST CODIGO';
             $instanciaArticulo->descripcion = "TEST DESCRIPCION #$index";
@@ -38,7 +35,7 @@ class ArticuloSeeder extends Seeder
             $instanciaArticulo->serie = "TEST SERIE #$index";
             $instanciaArticulo->estado = 'TEST ESTADO';
 
-            $instanciaArticulo->costo_adquisicion = $articulo['costo'];
+            $instanciaArticulo->precio_venta = $articulo['precio'];
 
             $instanciaArticulo->area()->associate($area);
 

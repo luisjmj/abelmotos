@@ -21,7 +21,6 @@ class CrearTablaArticulos extends Migration
                 ->on("responsables")
                 ->onDelete("restrict")
                 ->onUpdate("cascade");
-            $table->date("fecha_adquisicion");
             $table->string("codigo", 255);
             $table->string("numero_folio_comprobante", 255)->nullable();
             $table->string("descripcion", 255);
@@ -30,7 +29,7 @@ class CrearTablaArticulos extends Migration
             $table->string("serie", 255);
             $table->string("estado", 255);
             $table->string("observaciones", 255)->nullable();
-            $table->unsignedDecimal("costo_adquisicion", 10, 2);
+            $table->unsignedDecimal("precio_venta", 20, 4);
             $table->timestamps();
         });
     }
