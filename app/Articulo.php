@@ -8,6 +8,8 @@ class Articulo extends Model
 {
     protected $table = "articulos";
 
+    protected $dates = ['fecha_adquisicion'];
+
     public function area()
     {
         return $this->belongsTo("App\Area", "areas_id");
