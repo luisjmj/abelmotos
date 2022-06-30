@@ -9,6 +9,8 @@ class ArticuloInventario extends Model
 {
     protected $table = 'articulo_inventarios';
 
+    protected $dates = ['fecha_adquisicion'];
+
     public function articulo(): BelongsTo
     {
         return $this->belongsTo(Articulo::class,'articulo_id');
