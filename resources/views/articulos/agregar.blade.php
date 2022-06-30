@@ -8,12 +8,6 @@
                 <div class="field is-horizontal">
                     <div class="field-body">
                         <div class="field">
-                            <label class="label">Fecha de adquisición</label>
-                            <div class="control">
-                                <input v-model="articulo.fechaAdquisicion" autocomplete="off" class="input" type="date">
-                            </div>
-                        </div>
-                        <div class="field">
                             <label class="label">Código</label>
                             <div class="control">
                                 <input placeholder="Código identificador" v-model="articulo.codigo" autocomplete="off"
@@ -85,7 +79,7 @@
                                 <div class="field">
                                     <label class="label">Precio</label>
                                     <div class="control">
-                                        <input placeholder="Precio de adquisición" v-model="articulo.costoAdquisicion"
+                                        <input placeholder="Precio de venta" v-model="articulo.precioVenta"
                                                autocomplete="off"
                                                class="input" type="number">
                                     </div>

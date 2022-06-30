@@ -50,7 +50,7 @@ Route::group(
                 Route::post("/articulo", "ArticulosController@agregar");
                 Route::get("/articulos", "ArticulosController@mostrar");
                 Route::get("articulo/{id}", "ArticulosController@porId");
-                Route::put("articulo/", "ArticulosController@guardarCambios")->name("guardarCambiosDeResponsable");
+                Route::post("articulo/{id}", "ArticulosController@guardarCambios")->name("guardarCambiosDeArticulo");
                 // Fotos de artículos
                 Route::post("eliminar/foto/articulo/", "ArticulosController@eliminarFoto")->name("eliminarFotoDeArticulo");
 

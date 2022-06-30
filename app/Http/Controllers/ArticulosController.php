@@ -62,7 +62,6 @@ class ArticulosController extends Controller
     {
         $datosDecodificados = json_decode($peticion->getContent());
         $articulo = new Articulo;
-        $articulo->fecha_adquisicion = $peticion->fechaAdquisicion;
         $articulo->codigo = $peticion->codigo;
         $articulo->numero_folio_comprobante = $peticion->numeroFolioComprobante;
         $articulo->descripcion = $peticion->descripcion;
@@ -71,7 +70,7 @@ class ArticulosController extends Controller
         $articulo->serie = $peticion->serie;
         $articulo->estado = $peticion->estado;
         $articulo->observaciones = $peticion->observaciones;
-        $articulo->costo_adquisicion = $peticion->costoAdquisicion;
+        $articulo->precio_venta = $peticion->precioVenta;
         $articulo->areas_id = $datosDecodificados->areas_id;
         return response()->json($articulo->save());
     }
@@ -95,7 +94,6 @@ class ArticulosController extends Controller
     {
         $datosDecodificados = json_decode($peticion->getContent());
         $articulo = Articulo::findOrFail($datosDecodificados->id);
-        $articulo->fecha_adquisicion = $peticion->fechaAdquisicion;
         $articulo->codigo = $peticion->codigo;
         $articulo->numero_folio_comprobante = $peticion->numeroFolioComprobante;
         $articulo->descripcion = $peticion->descripcion;
@@ -104,7 +102,7 @@ class ArticulosController extends Controller
         $articulo->serie = $peticion->serie;
         $articulo->estado = $peticion->estado;
         $articulo->observaciones = $peticion->observaciones;
-        $articulo->costo_adquisicion = $peticion->costoAdquisicion;
+        $articulo->precio_venta = $peticion->precioVenta;
         $articulo->areas_id = $datosDecodificados->areas_id;
         return response()->json($articulo->save());
     }

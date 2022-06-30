@@ -27,7 +27,6 @@ new Vue({
         },
         articulo: {
             id: "",
-            fechaAdquisicion: "",
             codigo: "",
             numeroFolioComprobante: "",
             descripcion: "",
@@ -36,7 +35,7 @@ new Vue({
             serie: "",
             estado: "regular",
             observaciones: "",
-            costoAdquisicion: "",
+            precioVenta: "",
         },
         errores: [],
         cargando: false,
@@ -54,7 +53,6 @@ new Vue({
                 return;
             }
             this.articulo.id = articulo.id;
-            this.articulo.fechaAdquisicion = articulo.fecha_adquisicion;
             this.articulo.codigo = articulo.codigo;
             this.articulo.numeroFolioComprobante = articulo.numero_folio_comprobante;
             this.articulo.descripcion = articulo.descripcion;
@@ -63,7 +61,7 @@ new Vue({
             this.articulo.serie = articulo.serie;
             this.articulo.estado = articulo.estado;
             this.articulo.observaciones = articulo.observaciones;
-            this.articulo.costoAdquisicion = articulo.costo_adquisicion;
+            this.articulo.precioVenta = articulo.precio_venta;
             this.areaSeleccionada.nombre = articulo.area.nombre;
             this.areaSeleccionada.id = articulo.area.id;
         });
@@ -74,9 +72,8 @@ new Vue({
             if (!this.validar()) return;
             this.cargando = true;
             HTTP
-                .put("/articulo", {
+                .post(`/articulo/${this.articulo.id}`, {
                     id: this.articulo.id,
-                    fechaAdquisicion: this.articulo.fechaAdquisicion,
                     codigo: this.articulo.codigo,
                     numeroFolioComprobante: this.articulo.numeroFolioComprobante,
                     descripcion: this.articulo.descripcion,
@@ -85,7 +82,7 @@ new Vue({
                     serie: this.articulo.serie,
                     estado: this.articulo.estado,
                     observaciones: this.articulo.observaciones,
-                    costoAdquisicion: this.articulo.costoAdquisicion,
+                    precioVenta: this.articulo.precioVenta,
                     areas_id: this.areaSeleccionada.id
                 })
                 .then(resultado => {
@@ -99,8 +96,6 @@ new Vue({
         },
         validar() {
             this.errores = [];
-            if (!this.articulo.fechaAdquisicion.trim())
-                this.errores.push("Selecciona la fecha de adquisición");
             if (!this.articulo.codigo.trim())
                 this.errores.push("Escribe el código del artículo");
             if (this.articulo.codigo.length > 255)
@@ -111,11 +106,11 @@ new Vue({
                 this.errores.push("La descripción no debe contener más de 255 caracteres");
             if (!this.articulo.estado)
                 this.errores.push("Selecciona el estado del artículo");
-            if (!parseFloat(this.articulo.costoAdquisicion))
+            if (!parseFloat(this.articulo.precioVenta))
                 this.errores.push("Escribe el costo de adquisición del artículo");
-            if (parseFloat(this.articulo.costoAdquisicion) <= 0)
+            if (parseFloat(this.articulo.precioVenta) <= 0)
                 this.errores.push("El costo de adquisición debe ser mayor a 0");
-            if (parseFloat(this.articulo.costoAdquisicion) > 99999999.99)
+            if (parseFloat(this.articulo.precioVenta) > 99999999.99)
                 this.errores.push("El costo de adquisición debe ser menor que 100000000");
 
             if (!this.areaSeleccionada.id)
@@ -130,7 +125,6 @@ new Vue({
             this.areas = [];
             this.areaSeleccionada = {};
             this.articulo = {
-                fechaAdquisicion: "",
                 codigo: "",
                 numeroFolioComprobante: "",
                 descripcion: "",
@@ -139,7 +133,7 @@ new Vue({
                 serie: "",
                 estado: "regular",
                 observaciones: "",
-                costoAdquisicion: "",
+                precioVenta: "",
             };
             this.errores = [];
             this.cargando = false;
