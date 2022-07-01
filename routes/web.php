@@ -54,6 +54,7 @@ Route::group(
 
                 Route::get("/articulos/inventario/{articulo}/buscar", "ArticulosController@buscarInventario");
                 Route::post("/articulos/inventario/{articulo}", "ArticulosController@crearInventario")->name('guardarInventario');
+                Route::post("/inventarios/eliminar/{articulo}", "ArticulosController@eliminarInventario")->name('eliminarInventario');
 
                 // Fotos de artículos
                 Route::post("eliminar/foto/articulo/", "ArticulosController@eliminarFoto")->name("eliminarFotoDeArticulo");

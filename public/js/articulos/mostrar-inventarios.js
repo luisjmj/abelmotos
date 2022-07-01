@@ -82,9 +82,10 @@ new Vue({
             if (!confirm("¿Eliminar todos los elementos marcados?")) return;
             let arregloParaEliminar = this.inventarios.filter(inventario => inventario.marcada).map(inventario => inventario.id);
             this.cargando.eliminandoMuchos = true;
-            HTTP.post("/inventarios/eliminar", arregloParaEliminar)
+            HTTP.post(`/inventarios/eliminar/${window.articuloId}?ids=${JSON.stringify(arregloParaEliminar)}`, {
+                ids: arregloParaEliminar,
+            })
                 .then(resultado => {
-
                 })
                 .finally(() => {
                     this.desmarcarTodas();
@@ -118,17 +119,20 @@ new Vue({
             Vue.set(inventario, "marcada", !inventario.marcada);
         },
         eliminar(inventario) {
-            if (!confirm(`¿Eliminar área ${inventario.nombre}?`)) return;
+            if (!confirm(`¿Eliminar inventario?`)) return;
             this.desmarcarTodas();
-            let {id} = inventario;
             Vue.set(inventario, "eliminando", true);
-            HTTP.delete(`/inventario/${id}`)
+            const arregloParaEliminar = [inventario.id];
+            HTTP.post(`/inventarios/eliminar/${window.articuloId}?ids=${JSON.stringify(arregloParaEliminar)}`, {
+                ids: arregloParaEliminar,
+            })
                 .then(resultado => {
-
                 })
                 .finally(() => {
+                    this.desmarcarTodas();
                     this.refrescarSinQueImporteBusquedaOPagina();
-                })
+                    this.cargando.eliminandoMuchos = false;
+                });
         },
         refrescarSinQueImporteBusquedaOPagina() {
             let url = this.busqueda ? `/articulos/inventario/${window.articuloId}/buscar/?page=${this.paginacion.actual}` : `/articulos/inventario/${window.articuloId}/buscar/`;

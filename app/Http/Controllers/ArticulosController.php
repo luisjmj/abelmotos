@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use function back;
+use function json_decode;
 use function redirect;
+use function str_replace;
 use function view;
 
 class ArticulosController extends Controller
@@ -249,7 +251,7 @@ class ArticulosController extends Controller
         $inventario->save();
 
         return redirect()
-            ->route('articulos.inventario',[$articulo])
+            ->route('articulos.inventario', [$articulo])
             ->with("mensaje", "Inventario Agregado con exito")
             ->with("tipo", "success");
     }
@@ -269,8 +271,18 @@ class ArticulosController extends Controller
         $inventario->save();
 
         return redirect()
-            ->route('articulos.inventario',[$inventario->articulo])
+            ->route('articulos.inventario', [$inventario->articulo])
             ->with("mensaje", "Inventario Editado con exito")
             ->with("tipo", "success");
+    }
+
+
+    public function eliminarInventario(Articulo $articulo, Request $request)
+    {
+        $articulo->inventario()->whereIn('id',json_decode($request->get('ids')))->delete();
+
+        return [
+            'mensaje' => 'success',
+        ];
     }
 }
