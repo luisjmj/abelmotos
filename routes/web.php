@@ -55,7 +55,6 @@ Route::group(
                 Route::get("/articulos/inventario/{articulo}/buscar", "ArticulosController@buscarInventario");
                 Route::post("/articulos/inventario/{articulo}", "ArticulosController@crearInventario")->name('guardarInventario');
 
-
                 // Fotos de artículos
                 Route::post("eliminar/foto/articulo/", "ArticulosController@eliminarFoto")->name("eliminarFotoDeArticulo");
 
@@ -94,6 +93,10 @@ Route::group(
 
         Route::get("articulos/inventario/{articulo}", "ArticulosController@mostrarInventario")->name("articulos.inventario");
         Route::get("articulos/inventario/{articulo}/agregar", "ArticulosController@agregarInventario")->name("articulos.inventario.agregar");
+
+        Route::get("/inventarios/editar/{inventario}", "ArticulosController@editarInventario")->name('editarInventario');
+        Route::post("/inventarios/editar/{inventario}", "ArticulosController@editarInventarioPost")->name('editarInventarioPost');
+
 
         # Logout
         Route::get("logout", function () {

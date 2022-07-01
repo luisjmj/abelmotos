@@ -215,6 +215,15 @@ class ArticulosController extends Controller
         return view('articulos.agregar-inventario', $data);
     }
 
+    public function editarInventario(ArticuloInventario $inventario)
+    {
+        $data = [
+            'inventario' => $inventario,
+        ];
+
+        return view('articulos.editar-inventario', $data);
+    }
+
     public function buscarInventario(Articulo $articulo): LengthAwarePaginator
     {
         return $articulo->inventario()
@@ -242,6 +251,26 @@ class ArticulosController extends Controller
         return redirect()
             ->route('articulos.inventario',[$articulo])
             ->with("mensaje", "Inventario Agregado con exito")
+            ->with("tipo", "success");
+    }
+
+    public function editarInventarioPost(ArticuloInventario $inventario, Request $request): RedirectResponse
+    {
+        $request->validate([
+            'fecha_de_adquisicion' => 'required|date',
+            'costo_de_adquisicion' => 'required|numeric|min:0',
+            'cantidad' => 'required|integer|min:0'
+        ]);
+
+        $inventario->fecha_adquisicion = $request->fecha_de_adquisicion;
+        $inventario->precio_adquisicion = $request->costo_de_adquisicion;
+        $inventario->cantidad = $request->cantidad;
+
+        $inventario->save();
+
+        return redirect()
+            ->route('articulos.inventario',[$inventario->articulo])
+            ->with("mensaje", "Inventario Editado con exito")
             ->with("tipo", "success");
     }
 }
