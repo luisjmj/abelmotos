@@ -12,10 +12,13 @@ use App\Http\Requests\DarArticuloDeBajaRequest;
 use App\Http\Requests\GuardarCambiosDeArticuloRequest;
 use App\Http\Requests\SubirFotosDeArticulosRequest;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use function back;
+use function redirect;
 use function view;
 
 class ArticulosController extends Controller
@@ -203,9 +206,42 @@ class ArticulosController extends Controller
         return view('articulos.mostrar-inventario', $data);
     }
 
+    public function agregarInventario(Articulo $articulo)
+    {
+        $data = [
+            'articulo' => $articulo,
+        ];
+
+        return view('articulos.agregar-inventario', $data);
+    }
+
     public function buscarInventario(Articulo $articulo): LengthAwarePaginator
     {
         return $articulo->inventario()
             ->paginate(Config::get("constantes.paginas_en_paginacion"));
+    }
+
+    public function crearInventario(Articulo $articulo, Request $request): RedirectResponse
+    {
+        $request->validate([
+            'fecha_de_adquisicion' => 'required|date',
+            'costo_de_adquisicion' => 'required|numeric|min:0',
+            'cantidad' => 'required|integer|min:0'
+        ]);
+
+        $inventario = new ArticuloInventario();
+
+        $inventario->articulo()->associate($articulo);
+
+        $inventario->fecha_adquisicion = $request->fecha_de_adquisicion;
+        $inventario->precio_adquisicion = $request->costo_de_adquisicion;
+        $inventario->cantidad = $request->cantidad;
+
+        $inventario->save();
+
+        return redirect()
+            ->route('articulos.inventario',[$articulo])
+            ->with("mensaje", "Inventario Agregado con exito")
+            ->with("tipo", "success");
     }
 }

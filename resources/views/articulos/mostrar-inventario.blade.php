@@ -17,7 +17,7 @@
                         <div class="column">
                             <div class="field is-grouped is-pulled-right">
                                 <div class="control">
-                                    <a href="{{route('articulos.inventario.agregar',[])}}" class="button is-success">Agregar</a>
+                                    <a href="{{route('articulos.inventario.agregar',[$articulo])}}" class="button is-success">Agregar</a>
                                 </div>
                                 <div class="control">
                                     @verbatim
