@@ -15,6 +15,11 @@ class Articulo extends Model
         return $this->belongsTo("App\Area", "areas_id");
     }
 
+    public function proveedor(): BelongsTo
+    {
+        return $this->belongsTo("App\Proveedor", "proveedor_id");
+    }
+
     public function fotos(): HasMany
     {
         return $this->hasMany("App\FotoDeArticulo", "articulos_id");

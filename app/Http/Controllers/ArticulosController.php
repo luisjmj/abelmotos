@@ -71,7 +71,7 @@ class ArticulosController extends Controller
         $datosDecodificados = json_decode($peticion->getContent());
         $articulo = new Articulo;
         $articulo->codigo = $peticion->codigo;
-        $articulo->numero_folio_comprobante = $peticion->numeroFolioComprobante;
+        $articulo->factura = $peticion->factura;
         $articulo->descripcion = $peticion->descripcion;
         $articulo->marca = $peticion->marca;
         $articulo->modelo = $peticion->modelo;
@@ -80,6 +80,7 @@ class ArticulosController extends Controller
         $articulo->observaciones = $peticion->observaciones;
         $articulo->precio_venta = $peticion->precioVenta;
         $articulo->areas_id = $datosDecodificados->areas_id;
+        $articulo->proveedor_id = $datosDecodificados->proveedor_id;
         return response()->json($articulo->save());
     }
 
@@ -94,7 +95,7 @@ class ArticulosController extends Controller
     public function porId(Request $peticion)
     {
         $idArticulo = $peticion->id;
-        $articulo = Articulo::where("id", "=", $idArticulo)->with("Area")->first();
+        $articulo = Articulo::where("id", "=", $idArticulo)->with("Area", "Proveedor")->first();
         return response()->json($articulo);
     }
 
@@ -103,7 +104,7 @@ class ArticulosController extends Controller
         $datosDecodificados = json_decode($peticion->getContent());
         $articulo = Articulo::findOrFail($datosDecodificados->id);
         $articulo->codigo = $peticion->codigo;
-        $articulo->numero_folio_comprobante = $peticion->numeroFolioComprobante;
+        $articulo->factura = $peticion->factura;
         $articulo->descripcion = $peticion->descripcion;
         $articulo->marca = $peticion->marca;
         $articulo->modelo = $peticion->modelo;
@@ -112,6 +113,7 @@ class ArticulosController extends Controller
         $articulo->observaciones = $peticion->observaciones;
         $articulo->precio_venta = $peticion->precioVenta;
         $articulo->areas_id = $datosDecodificados->areas_id;
+        $articulo->proveedor_id = $datosDecodificados->proveedor_id;
         return response()->json($articulo->save());
     }
 
@@ -161,7 +163,7 @@ class ArticulosController extends Controller
         $articuloDadoDeBaja = new ArticuloDadoDeBaja;
         $articuloDadoDeBaja->fecha_adquisicion = $articuloParaEliminar->fecha_adquisicion;
         $articuloDadoDeBaja->codigo = $articuloParaEliminar->codigo;
-        $articuloDadoDeBaja->numero_folio_comprobante = $articuloParaEliminar->numero_folio_comprobante;
+        $articuloDadoDeBaja->factura = $articuloParaEliminar->factura;
         $articuloDadoDeBaja->descripcion = $articuloParaEliminar->descripcion;
         $articuloDadoDeBaja->marca = $articuloParaEliminar->marca;
         $articuloDadoDeBaja->modelo = $articuloParaEliminar->modelo;

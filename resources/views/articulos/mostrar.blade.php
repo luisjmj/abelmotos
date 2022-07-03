@@ -124,8 +124,7 @@
                                 </div>
                                 <div class="content">
                                     <strong>Costo: </strong> {{articulo.costo_adquisicion}}<br>
-                                    <strong>No. folio
-                                        comprobante: </strong> {{articulo.numero_folio_comprobante}}<br>
+                                    <strong>No. Factura: </strong> {{articulo.factura}}<br>
                                     <div class="field has-addons">
                                         <p class="control">
                                             <button class="button is-info" @click="administrarFotos(articulo)">
@@ -191,7 +190,7 @@
                             <th>Opciones</th>
                             <th>Área</th>
                             <th>Fecha de adquisición</th>
-                            <th>Número/folio de comprobante</th>
+                            <th>Número de factura</th>
                             <th>Descripción</th>
                             <th>Código</th>
                             <th>Marca</th>
@@ -255,7 +254,7 @@
                                 </td>
                                 <td>{{articulo.area.nombre}}</td>
                                 <td>{{articulo.fecha_adquisicion}}</td>
-                                <td>{{articulo.numero_folio_comprobante}}</td>
+                                <td>{{articulo.factura}}</td>
                                 <td>{{articulo.descripcion}}</td>
                                 <td>{{articulo.codigo}}</td>
                                 <td>{{articulo.marca}}</td>

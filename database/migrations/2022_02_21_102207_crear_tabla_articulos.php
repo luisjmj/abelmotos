@@ -28,7 +28,7 @@ class CrearTablaArticulos extends Migration
                 ->onDelete("restrict")
                 ->onUpdate("cascade");
             $table->string("codigo", 255);
-            $table->string("numero_folio_comprobante", 255)->nullable();
+            $table->string("factura", 255)->nullable();
             $table->string("descripcion", 255);
             $table->string("marca", 255);
             $table->string("modelo", 255);

@@ -17,7 +17,7 @@
                         <div class="field">
                             <label class="label">Número de factura</label>
                             <div class="control">
-                                <input placeholder="Numero de factura" v-model="articulo.numeroFolioComprobante"
+                                <input placeholder="Numero de factura" v-model="articulo.factura"
                                        autocomplete="off"
                                        class="input" type="text">
                             </div>
@@ -68,6 +68,7 @@
                                     <div class="control">
                                         <div class="select is-fullwidth">
                                             <select v-model="articulo.estado">
+                                                <option value="regular">Nuevo</option>
                                                 <option value="regular">Regular</option>
                                                 <option value="malo">Malo</option>
                                                 <option value="inservible">Inservible</option>
@@ -77,7 +78,7 @@
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Precio</label>
+                                    <label class="label">Precio USD</label>
                                     <div class="control">
                                         <input placeholder="Precio de venta" v-model="articulo.precioVenta"
                                                autocomplete="off"
@@ -107,6 +108,27 @@
                                 <div v-show="!mostrar.areas && areaSeleccionada.id" class="notification is-info">
                                     <h4 class="is-size-4">Área: {{areaSeleccionada.nombre}}</h4>
                                 </div>
+                        </nav>
+                        <nav class="panel">
+                            <div class="panel-block">
+                                <p class="control">
+                                    <label class="label">Proveedores</label>
+                                    <input @focus="mostrar.proveedores = true" v-model="busquedaProveedor"
+                                            @keyup="buscarProveedor()" class="input" type="text"
+                                            placeholder="Buscar proveedores">
+                                </p>
+                            </div>
+                            <a v-show="mostrar.proveedores && busquedaProveedor" @click="seleccionaProveedor(proveedor)"
+                                v-for="proveedor in proveedores"
+                                class="panel-block" :class="{'is-active': proveedor.id === proveedorSeleccionado.id}">
+                            <span class="panel-icon">
+                                <i class="fas fa-building" aria-hidden="true"></i>
+                            </span>
+                                {{proveedor.nombre}}
+                            </a>
+                            <div v-show="!mostrar.proveedores && proveedorSeleccionado.id" class="notification is-info">
+                                <h4 class="is-size-4">Proveedor: {{proveedorSeleccionado.nombre}}</h4>
+                            </div>
                         </nav>
                     </div>
                     <div class="column">

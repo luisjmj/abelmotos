@@ -25,7 +25,7 @@ class AgregarArticuloDeInventarioRequest extends FormRequest
     {
         return [
             "codigo" => "required|max:255",
-            "numeroFolioComprobante" => "max:255",
+            "factura" => "max:255",
             "descripcion" => "required|max:255",
             "estado" => "required|in:regular,malo,inservible,noEncontrado",
             "observaciones" => "max:255",

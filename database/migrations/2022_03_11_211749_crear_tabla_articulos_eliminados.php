@@ -25,7 +25,7 @@ class CrearTablaArticulosEliminados extends Migration
                 ->onUpdate("cascade");
             $table->date("fecha_adquisicion");
             $table->string("codigo", 255);
-            $table->string("numero_folio_comprobante", 255)->nullable();
+            $table->string("factura", 255)->nullable();
             $table->string("descripcion", 255);
             $table->string("marca", 255);
             $table->string("modelo", 255);
