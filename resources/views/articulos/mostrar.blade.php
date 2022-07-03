@@ -123,7 +123,10 @@
                                     </div>
                                 </div>
                                 <div class="content">
-                                    <strong>Costo: </strong> {{articulo.costo_adquisicion}}<br>
+                                    <strong>Costo BS: </strong> {{articulo.precio_venta}}<br>
+                                    <div v-for="divisa in divisas">
+                                        <strong>Costo {{divisa.nombre}}: </strong> {{articulo.precio_venta * divisa.tasa}}<br>
+                                    </div>
                                     <strong>No. Factura: </strong> {{articulo.factura}}<br>
                                     <div class="field has-addons">
                                         <p class="control">

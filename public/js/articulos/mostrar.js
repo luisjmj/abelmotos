@@ -25,9 +25,11 @@ new Vue({
             siguientePagina: "",
             paginaAnterior: "",
         },
+        divisas: [],
         paginas: [],
     }),
     beforeMount() {
+        this.getDivisas();
         this.refrescarSinQueImporteBusquedaOPagina();
     },
     computed: {
@@ -155,6 +157,7 @@ new Vue({
         consultarArticulosConUrl(url) {
             this.desmarcarTodos();
             this.cargando.lista = true;
+            console.log(this.divisas);
             return HTTP.get(url)
                 .then(respuesta => {
                     // this.articulos = respuesta.data;
@@ -211,6 +214,9 @@ new Vue({
             }
             // Última
             this.paginas.push({numero: this.paginacion.ultima});
-        }
+        },
+        getDivisas: debounce(function () {
+            HTTP.get("/divisas").then(divisas => this.divisas = divisas.data)
+        }, 500)
     }
 });
