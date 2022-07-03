@@ -34,6 +34,7 @@ class ArticuloSeeder extends Seeder
             $instanciaArticulo->modelo = "TEST ARTICULO #$index";
             $instanciaArticulo->serie = "TEST SERIE #$index";
             $instanciaArticulo->estado = 'regular';
+            $instanciaArticulo->proveedor_id = 1;
 
             $instanciaArticulo->precio_venta = $articulo['precio'];
 
