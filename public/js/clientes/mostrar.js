@@ -1,9 +1,9 @@
-const RUTA_EDITAR_RESPONSABLE = URL_BASE + "/responsables/editar";
+const RUTA_EDITAR_CLIENTE = URL_BASE + "/clientes/editar";
 new Vue({
     el: "#app",
     data: () => ({
         buscando: false,
-        responsables: [],
+        clientes: [],
         numeroDeElementosMarcados: 0,
         cargando: {
             eliminandoMuchos: false,
@@ -25,7 +25,7 @@ new Vue({
     },
     computed: {
         deberiaDeshabilitarBusqueda() {
-            return this.responsables.length <= 0 && !this.busqueda;
+            return this.clientes.length <= 0 && !this.busqueda;
         }
     },
     methods: {
@@ -52,20 +52,20 @@ new Vue({
         buscar: debounce(function () {
             if (this.busqueda && !this.buscando) {
                 this.buscando = true;
-                this.consultarResponsablesConUrl(`/responsables/buscar/${encodeURIComponent(this.busqueda)}`)
+                this.consultarClientesConUrl(`/clientes/buscar/${encodeURIComponent(this.busqueda)}`)
                     .finally(() => this.buscando = false);
             } else {
                 this.refrescarSinQueImporteBusquedaOPagina();
             }
         }, 500),
-        editar(responsable) {
-            window.location.href = `${RUTA_EDITAR_RESPONSABLE}/${responsable.id}`;
+        editar(cliente) {
+            window.location.href = `${RUTA_EDITAR_CLIENTE}/${cliente.id}`;
         },
         eliminarMarcados() {
             if (!confirm("¿Eliminar todos los elementos marcados?")) return;
-            let arregloParaEliminar = this.responsables.filter(responsable => responsable.marcado).map(responsable => responsable.id);
+            let arregloParaEliminar = this.clientes.filter(cliente => cliente.marcado).map(cliente => cliente.id);
             this.cargando.eliminandoMuchos = true;
-            HTTP.post("/responsables/eliminar", arregloParaEliminar)
+            HTTP.post("/clientes/eliminar", arregloParaEliminar)
                 .then(resultado => {
 
                 })
@@ -76,36 +76,36 @@ new Vue({
                 });
         },
         onBotonParaMarcarClickeado() {
-            if (this.responsables.some(responsable => responsable.marcado)) {
+            if (this.clientes.some(cliente => cliente.marcado)) {
                 this.desmarcarTodos();
             } else {
                 this.marcarTodos();
             }
         },
         marcarTodos() {
-            this.numeroDeElementosMarcados = this.responsables.length;
-            this.responsables.forEach(responsable => {
-                Vue.set(responsable, "marcado", true);
+            this.numeroDeElementosMarcados = this.clientes.length;
+            this.clientes.forEach(cliente => {
+                Vue.set(cliente, "marcado", true);
             });
         },
         desmarcarTodos() {
             this.numeroDeElementosMarcados = 0;
-            this.responsables.forEach(responsable => {
-                Vue.set(responsable, "marcado", false);
+            this.clientes.forEach(cliente => {
+                Vue.set(cliente, "marcado", false);
             });
         },
-        invertirEstado(responsable) {
+        invertirEstado(cliente) {
             // Si está marcada, ahora estará desmarcada
-            if (responsable.marcado) this.numeroDeElementosMarcados--;
+            if (cliente.marcado) this.numeroDeElementosMarcados--;
             else this.numeroDeElementosMarcados++;
-            Vue.set(responsable, "marcado", !responsable.marcado);
+            Vue.set(cliente, "marcado", !cliente.marcado);
         },
-        eliminar(responsable) {
-            if (!confirm(`¿Eliminar responsable ${responsable.nombre}?`)) return;
+        eliminar(cliente) {
+            if (!confirm(`¿Eliminar cliente ${cliente.nombre}?`)) return;
             this.desmarcarTodos();
-            let {id} = responsable;
-            Vue.set(responsable, "eliminando", true);
-            HTTP.delete(`/responsable/${id}`)
+            let {id} = cliente;
+            Vue.set(cliente, "eliminando", true);
+            HTTP.delete(`/cliente/${id}`)
                 .then(resultado => {
 
                 })
@@ -114,17 +114,17 @@ new Vue({
                 })
         },
         refrescarSinQueImporteBusquedaOPagina() {
-            let url = this.busqueda ? `/responsables/buscar/${encodeURIComponent(this.busqueda)}?page=${this.paginacion.actual}` : "/responsables";
-            this.consultarResponsablesConUrl(url);
+            let url = this.busqueda ? `/clientes/buscar/${encodeURIComponent(this.busqueda)}?page=${this.paginacion.actual}` : "/clientes";
+            this.consultarClientesConUrl(url);
         },
-        consultarResponsablesConUrl(url) {
+        consultarClientesConUrl(url) {
 
             // return console.log("Todavía no!");
             this.desmarcarTodos();
             this.cargando.lista = true;
             return HTTP.get(url)
                 .then(respuesta => {
-                    this.responsables = respuesta.data;
+                    this.clientes = respuesta.data;
                     this.establecerPaginacion(respuesta);
                 })
                 .finally(() => this.cargando.lista = false);
@@ -139,7 +139,7 @@ new Vue({
         },
         irALaPagina(pagina) {
             this.cargando.paginacion = true;
-            this.consultarResponsablesConUrl("/responsables?page=" + pagina).finally(() => this.cargando.paginacion = false);
+            this.consultarClientesConUrl("/clientes?page=" + pagina).finally(() => this.cargando.paginacion = false);
         },
         prepararArregloParaPaginacion() {
 

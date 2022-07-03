@@ -33,6 +33,15 @@ Route::group(
         # API
         Route::prefix("api")
             ->group(function () {
+                // Clientes
+                Route::post("cliente", "ClienteController@agregar");
+                Route::get("clientes", "ClienteController@mostrar");
+                Route::get("cliente/{id}", "ClienteController@porId");
+                Route::get("clientes/buscar/{busqueda}", "ClienteController@buscar");
+                Route::delete("cliente/{id}", "ClienteController@eliminar");
+                Route::post("clientes/eliminar", "ClienteController@eliminarMuchos");
+                Route::put("cliente", "ClienteController@guardarCambios")->name("guardarCambiosDeCliente");
+
                 // Áreas
                 Route::get("areas", "AreasController@mostrar");
                 Route::get("areas/buscar/{busqueda}", "AreasController@buscar");
@@ -61,6 +70,11 @@ Route::group(
 
             });
 
+
+        # CLIENTES
+        Route::view("clientes/agregar", "clientes/agregar")->name("formularioAgregarCliente");
+        Route::view("clientes/", "clientes/mostrar")->name("clientes");
+        Route::view("clientes/editar/{id}", "clientes/editar")->name("formularioEditarCliente");
 
         # VISTAS
         Route::view("areas/agregar", "agregar_area")->name("formularioArea");
@@ -105,7 +119,8 @@ Route::group(
             # Intentar redireccionar a una protegida, que a su vez redirecciona al login :)
             return redirect()->route("articulos");
         })->name("logout");
-    });
+    }
+);
 
 
 Auth::routes(["register" => false]);

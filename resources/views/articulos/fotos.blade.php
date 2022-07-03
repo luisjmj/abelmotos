@@ -55,8 +55,7 @@
         @php
             $mostrarPorFila = 3
         @endphp
-        {{-- https://parzibyte.me/blog/2019/03/02/blade-laravel-ciclos-condicionales-token-csrf-componentes/ --}}
-        @forelse($articulo->fotos as $foto)
+s        @forelse($articulo->fotos as $foto)
             {{--
                 Nota: los comentarios suponen que $mostrarPorFila es 3. Si no, igual funciona pero no entenderás los comentarios
             Abrir div si es elemento es 1, 4, 7, etcétera (comenzando a contar en 1)--}}
