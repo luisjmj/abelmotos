@@ -76,7 +76,9 @@ Route::group(
                 Route::get("articulo/{id}", "ArticulosController@porId");
                 Route::post("articulo/{id}", "ArticulosController@guardarCambios")->name("guardarCambiosDeArticulo");
 
+                Route::get("/articulos/buscar/{busqueda}", "ArticulosController@buscar");
                 Route::get("/articulos/inventario/{articulo}/buscar", "ArticulosController@buscarInventario");
+                Route::get("/articulos/proveedor/{id}", "ArticulosController@buscarPorProveedor");
                 Route::post("/articulos/inventario/{articulo}", "ArticulosController@crearInventario")->name('guardarInventario');
                 Route::post("/inventarios/eliminar/{articulo}", "ArticulosController@eliminarInventario")->name('eliminarInventario');
 

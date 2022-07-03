@@ -8,16 +8,22 @@ new Vue({
     el: "#app",
     data: () => ({
         buscando: false,
+        buscandoProveedor: false,
         articulos: [],
         gruposDeArticulos: [],
         numeroDeElementosMarcados: 0,
         rutaBaseFoto: RUTA_FOTO_MOSTRAR_ARTICULO,
+        mostrar: {
+            proveedores: false,
+        },
         cargando: {
             eliminandoMuchos: false,
             lista: false,
             paginacion: false,
         },
         busqueda: "",
+        busquedaProveedor: "",
+        proveedorSeleccionado: {},
         paginacion: {
             total: 0,
             actual: 0,
@@ -26,6 +32,7 @@ new Vue({
             paginaAnterior: "",
         },
         divisas: [],
+        proveedores: [],
         paginas: [],
     }),
     beforeMount() {
@@ -35,13 +42,15 @@ new Vue({
     computed: {
         deberiaDeshabilitarBusqueda() {
             return this.articulos.length <= 0 && !this.busqueda;
+        },
+        deberiaDeshabilitarBusquedaProveedor() {
+            return this.articulos.length <= 0 && !this.busquedaProveedor;
         }
     },
     methods: {
         deberiaAbrirDiv(index) {
             let iteracion = index + 1;
             let resultado = iteracion % TARJETAS_MOSTRAR_POR_FILA === 1;
-            console.log("Abrir?PAra %d regreso %s", index, resultado);
             return resultado;
 
         },
@@ -49,7 +58,6 @@ new Vue({
             let iteracion = index + 1;
             let ultimo = iteracion === this.articulos.length;
             let resultado = (iteracion % TARJETAS_MOSTRAR_POR_FILA === 0 && iteracion !== 0) || (ultimo && this.articulos.length % TARJETAS_MOSTRAR_POR_FILA !== 0);
-            console.log("Cerrar?PAra %d regreso %s", index, resultado);
             return resultado;
         },
         puedeAvanzarPaginacion() {
@@ -72,14 +80,30 @@ new Vue({
             this.busqueda = "";
             this.refrescarSinQueImporteBusquedaOPagina();
         },
+        limpiarBusquedaProveedor() {
+            this.busquedaProveedor = "";
+            this.proveedorSeleccionado = {};
+            this.refrescarSinQueImporteBusquedaOPagina();
+        },
         buscar: debounce(function () {
             if (this.busqueda && !this.buscando) {
                 this.buscando = true;
+                this.buscandoProveedor = false;
+                this.proveedorSeleccionado = {};
+                this.busquedaProveedor = "";
                 this.consultarArticulosConUrl(`/articulos/buscar/${encodeURIComponent(this.busqueda)}`)
                     .finally(() => this.buscando = false);
             } else {
                 this.refrescarSinQueImporteBusquedaOPagina();
             }
+        }, 500),
+        buscarProveedor: debounce(function () {
+            if (!this.busquedaProveedor) return;
+            this.buscandoProveedor = true;
+            this.busqueda = "";
+            this.buscando = false;
+            HTTP.get("/proveedores/buscar/" + encodeURIComponent(this.busquedaProveedor))
+                .then(proveedores => this.proveedores = proveedores.data)
         }, 500),
         editar(articulo) {
             window.location.href = `${RUTA_EDITAR_ARTICULO}/${articulo.id}`;
@@ -110,6 +134,16 @@ new Vue({
             setTimeout(function () {
                 Vue.set(articulo, "mostrarMenu", false);
             }, 200);
+        },
+        seleccionaProveedor(proveedor) {
+            this.proveedorSeleccionado = proveedor;
+            this.buscandoProveedor = false;
+            this.refrescarSinQueImporteBusquedaOPagina();
+            this.mostrar.proveedores = false;
+        },
+        deseleccionaProveedor() {
+            this.proveedorSeleccionado = {};
+            this.mostrar.proveedores = false;
         },
         eliminarMarcados() {
             if (!confirm("¿Eliminar todos los elementos marcados?")) return;
@@ -151,15 +185,20 @@ new Vue({
             Vue.set(articulo, "marcado", !articulo.marcado);
         },
         refrescarSinQueImporteBusquedaOPagina() {
-            let url = this.busqueda ? `/articulos/buscar/${encodeURIComponent(this.busqueda)}?page=${this.paginacion.actual}` : "/articulos";
+            let url = this.busqueda 
+                ? `/articulos/buscar/${encodeURIComponent(this.busqueda)}?page=${this.paginacion.actual}` 
+                : this.busquedaProveedor 
+                    ? `/articulos/proveedor/${this.proveedorSeleccionado.id}?page=${this.paginacion.actual}` 
+                    : "/articulos";
             this.consultarArticulosConUrl(url);
         },
         consultarArticulosConUrl(url) {
+            console.log("LLAMANDO ", url)
             this.desmarcarTodos();
             this.cargando.lista = true;
-            console.log(this.divisas);
             return HTTP.get(url)
                 .then(respuesta => {
+                    console.log
                     // this.articulos = respuesta.data;
                     let articulos = [];
                     let longitud = respuesta.data.length;
@@ -167,7 +206,6 @@ new Vue({
                         articulos.push(respuesta.data.slice(i, i + TARJETAS_MOSTRAR_POR_FILA));
                     }
                     this.articulos = articulos;
-                    console.log(this.gruposDeArticulos);
                     this.establecerPaginacion(respuesta);
                 })
                 .finally(() => this.cargando.lista = false);

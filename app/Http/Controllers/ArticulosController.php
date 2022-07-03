@@ -228,9 +228,27 @@ class ArticulosController extends Controller
         return view('articulos.editar-inventario', $data);
     }
 
+    public function buscar($busqueda)
+    {
+        return Articulo::orderBy("updated_at", "desc")
+            ->orderBy("created_at", "desc")
+            ->with(["area", "fotos"])
+            ->where("descripcion", "LIKE", "%{$busqueda}%")
+            ->paginate(Config::get("constantes.paginas_en_paginacion"));
+    }
+
     public function buscarInventario(Articulo $articulo): LengthAwarePaginator
     {
         return $articulo->inventario()
+            ->paginate(Config::get("constantes.paginas_en_paginacion"));
+    }
+
+    public function buscarPorProveedor($id)
+    {
+        return Articulo::orderBy("updated_at", "desc")
+            ->orderBy("created_at", "desc")
+            ->with(["area", "fotos"])
+            ->where("proveedor_id", $id)
             ->paginate(Config::get("constantes.paginas_en_paginacion"));
     }
 

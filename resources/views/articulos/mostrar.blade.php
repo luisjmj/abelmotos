@@ -11,29 +11,68 @@
                                 <h4 class="is-size-4">Artículos ({{paginacion.total}})</h4>
                             @endverbatim
                         </div>
-                        <div class="column">
-                            <div class="field has-addons">
-                                <div class="control">
-                                    <input :readonly="deberiaDeshabilitarBusqueda" v-model="busqueda" @keyup="buscar()"
-                                           class="input " type="text"
-                                           placeholder="Buscar por nombre">
-                                </div>
-                                <div class="control">
-                                    <button :disabled="deberiaDeshabilitarBusqueda || !busqueda" v-show="!this.busqueda"
-                                            @click="buscar()" class="button is-info"
-                                            :class="{'is-loading': buscando}">
-                                        <span class="icon is-small">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                    </button>
+                        <div class="columns" style="margin-top: 1em">
+                            <div class="column">
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        <input :readonly="deberiaDeshabilitarBusqueda" v-model="busqueda" @keyup="buscar()"
+                                            class="input " type="text"
+                                            placeholder="Buscar por nombre">
+                                    </div>
+                                    <div class="control">
+                                        <button :disabled="deberiaDeshabilitarBusqueda || !busqueda" v-show="!this.busqueda"
+                                                @click="buscar()" class="button is-info"
+                                                :class="{'is-loading': buscando}">
+                                            <span class="icon is-small">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                        </button>
 
-                                    <button v-show="this.busqueda" @click="limpiarBusqueda()" class="button is-info"
-                                            :class="{'is-loading': buscando}">
-                                        <span class="icon is-small">
-                                            <i class="fa fa-times"></i>
-                                        </span>
-                                    </button>
+                                        <button v-show="this.busqueda" @click="limpiarBusqueda()" class="button is-danger"
+                                                :class="{'is-loading': buscando}">
+                                            <span class="icon is-small">
+                                                <i class="fa fa-times"></i>
+                                            </span>
+                                        </button>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="column">
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        <input @focus="mostrar.proveedores = true" v-model="busquedaProveedor"
+                                                @keyup="buscarProveedor()" class="input" type="text"
+                                                placeholder="Buscar proveedores">
+                                    </div>
+                                    <div class="control">
+                                        <button :disabled="deberiaDeshabilitarBusquedaProveedor || !busquedaProveedor" v-show="!this.busquedaProveedor"
+                                            class="button is-info":class="{'is-loading': buscandoProveedor}">
+                                            <span class="icon is-small">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                        </button>
+
+                                        <button v-show="this.busquedaProveedor" @click="limpiarBusquedaProveedor()" class="button is-danger" :class="{'is-loading': buscandoProveedor}">
+                                            <span class="icon is-small">
+                                                <i class="fa fa-times"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                                @verbatim
+                                <a v-show="mostrar.proveedores && busquedaProveedor" @click="seleccionaProveedor(proveedor)"
+                                    v-for="proveedor in proveedores"
+                                    class="panel-block" :class="{'is-active': proveedor.id === proveedorSeleccionado.id}">
+                                <span class="panel-icon">
+                                    <i class="fas fa-building" aria-hidden="true"></i>
+                                </span>
+                                    {{proveedor.nombre}}
+                                </a>
+                                <div v-show="!mostrar.proveedores && proveedorSeleccionado.id" class="notification is-info">
+                                    <h4 class="is-size-6">{{proveedorSeleccionado.nombre}}</h4>
+                                </div>
+                                @endverbatim
                             </div>
                         </div>
                         <div class="column">
