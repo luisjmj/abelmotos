@@ -50,6 +50,11 @@
                         <i class="fa fa-users"></i>
                     </span>&nbsp;Clientes
                 </a>
+                <a class="navbar-item" href="{{ route("proveedores") }}">
+                    <span class="icon has-text-success">
+                        <i class="fa fa-users"></i>
+                    </span>&nbsp;Proveedores
+                </a>
                 <a class="navbar-item" href="{{ route("articulos") }}">
                     <span class="icon has-text-info">
                         <i class="fa fa-box"></i>

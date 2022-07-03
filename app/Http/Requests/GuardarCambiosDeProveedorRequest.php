@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GuardarCambiosDeClienteRequest extends FormRequest
+class GuardarCambiosDeProveedorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class GuardarCambiosDeClienteRequest extends FormRequest
     public function rules()
     {
         return [
-            "id" => "required|numeric|exists:clientes,id",
+            "id" => "required|numeric|exists:proveedores,id",
             "nombre" => "required|max:255",
-            "direccion" => "required",
-            "dni" => "required|max:128",
+            "rif" => "required|max:64|unique:proveedores",
+            "telefono" => "required|max:64",
             "email" => "required|max:255",
         ];
     }

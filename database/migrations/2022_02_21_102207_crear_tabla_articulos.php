@@ -15,6 +15,12 @@ class CrearTablaArticulos extends Migration
     {
         Schema::create('articulos', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger("proveedor_id");
+            $table->foreign("proveedor_id")
+                ->references("id")
+                ->on("proveedores")
+                ->onDelete("restrict")
+                ->onUpdate("cascade");
             $table->unsignedInteger("responsables_id");
             $table->foreign("responsables_id")
                 ->references("id")

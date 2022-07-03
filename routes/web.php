@@ -33,6 +33,15 @@ Route::group(
         # API
         Route::prefix("api")
             ->group(function () {
+                // Proveedores
+                Route::post("proveedor", "ProveedorController@agregar");
+                Route::get("proveedores", "ProveedorController@mostrar");
+                Route::get("proveedor/{id}", "ProveedorController@porId");
+                Route::get("proveedores/buscar/{busqueda}", "ProveedorController@buscar");
+                Route::delete("proveedor/{id}", "ProveedorController@eliminar");
+                Route::post("proveedores/eliminar", "ProveedorController@eliminarMuchos");
+                Route::put("proveedor", "ProveedorController@guardarCambios")->name("guardarCambiosDeProveedor");
+
                 // Clientes
                 Route::post("cliente", "ClienteController@agregar");
                 Route::get("clientes", "ClienteController@mostrar");
@@ -70,6 +79,10 @@ Route::group(
 
             });
 
+        # PROVEEDORES
+        Route::view("proveedores/agregar", "proveedores/agregar")->name("formularioAgregarProveedor");
+        Route::view("proveedores/", "proveedores/mostrar")->name("proveedores");
+        Route::view("proveedores/editar/{id}", "proveedores/editar")->name("formularioEditarProveedor");
 
         # CLIENTES
         Route::view("clientes/agregar", "clientes/agregar")->name("formularioAgregarCliente");

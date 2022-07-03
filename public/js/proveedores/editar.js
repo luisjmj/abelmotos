@@ -5,11 +5,11 @@ new Vue({
         mostrar: {
             aviso: false,
         },
-        cliente: {
+        proveedor: {
             nombre: "",
-            direccion: "",
+            telefono: "",
             id: null,
-            dni: "",
+            rif: "",
             email: ""
         },
         errores: [],
@@ -17,18 +17,18 @@ new Vue({
         aviso: {},
     }),
     beforeMount() {
-        let idCliente = window.location.href.split("/").pop();
-        HTTP.get("/cliente/" + idCliente).then(cliente => {
-            if (!cliente) {
-                alert("El cliente que intentas editar no existe");
+        let idProveedor = window.location.href.split("/").pop();
+        HTTP.get("/proveedor/" + idProveedor).then(proveedor => {
+            if (!proveedor) {
+                alert("El proveedor que intentas editar no existe");
                 window.location.href = URL_BASE;
                 return;
             }
-            this.cliente.id = cliente.id;
-            this.cliente.nombre = cliente.nombre;
-            this.cliente.direccion = cliente.direccion;
-            this.cliente.dni = cliente.dni;
-            this.cliente.email = cliente.email;
+            this.proveedor.id = proveedor.id;
+            this.proveedor.nombre = proveedor.nombre;
+            this.proveedor.telefono = proveedor.telefono;
+            this.proveedor.rif = proveedor.rif;
+            this.proveedor.email = proveedor.email;
         });
     },
     methods: {
@@ -37,38 +37,38 @@ new Vue({
             if (!this.validar()) return;
             this.cargando = true;
             HTTP
-                .put("/cliente", {
-                    id: this.cliente.id,
-                    nombre: this.cliente.nombre,
-                    direccion: this.cliente.direccion,
-                    dni: this.cliente.dni,
-                    email: this.cliente.email,
+                .put("/proveedor", {
+                    id: this.proveedor.id,
+                    nombre: this.proveedor.nombre,
+                    telefono: this.proveedor.telefono,
+                    rif: this.proveedor.rif,
+                    email: this.proveedor.email,
                 })
                 .then(resultado => {
                     resultado && this.resetear();
                     this.mostrar.aviso = true;
-                    this.aviso.mensaje = resultado ? "Cambios guardados con éxito" : "Error editando cliente. Intenta de nuevo";
+                    this.aviso.mensaje = resultado ? "Cambios guardados con éxito" : "Error editando proveedor. Intenta de nuevo";
                     this.aviso.tipo = resultado ? "is-success" : "is-danger";
                 })
                 .finally(() => this.cargando = false);
         },
         validar() {
             this.errores = [];
-            if (!this.cliente.nombre.trim())
+            if (!this.proveedor.nombre.trim())
                 this.errores.push("Escribe el nombre");
-            if (this.cliente.nombre.length > 255)
+            if (this.proveedor.nombre.length > 255)
                 this.errores.push("El nombre no debe contener más de 255 caracteres");
-            if (!this.cliente.direccion.trim())
-                this.errores.push("Escribe la direccion");
-            if (this.cliente.direccion.length > 255)
-                this.errores.push("La dirección no debe contener más de 255 caracteres");
-            if (!this.cliente.dni.trim())
+            if (!this.proveedor.telefono.trim())
+                this.errores.push("Escribe el telefono");
+            if (this.proveedor.telefono.length > 64)
+                this.errores.push("El telefono no debe contener más de 64 caracteres");
+            if (!this.proveedor.rif.trim())
                 this.errores.push("Escribe la cedula");
-            if (this.cliente.dni.length > 128)
+            if (this.proveedor.rif.length > 64)
                 this.errores.push("La cedula no debe contener más de 128 caracteres");
-            if (!this.cliente.email.trim())
+            if (!this.proveedor.email.trim())
                 this.errores.push("Escribe el correo");
-            if (this.cliente.email.length > 255)
+            if (this.proveedor.email.length > 255)
                 this.errores.push("El correo no debe contener más de 255 caracteres");
             return this.errores.length <= 0;
         },
@@ -77,10 +77,10 @@ new Vue({
             this.mostrar.areas = false;
         },
         resetear() {
-            this.cliente.nombre = "";
-            this.cliente.direccion = "";
-            this.cliente.dni = "";
-            this.cliente.email = "";
+            this.proveedor.nombre = "";
+            this.proveedor.rif = "";
+            this.proveedor.telefono = "";
+            this.proveedor.email = "";
             this.errores = [];
             this.cargando = false;
             this.busqueda = "";

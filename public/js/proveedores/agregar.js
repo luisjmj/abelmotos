@@ -5,10 +5,10 @@ new Vue({
         mostrar: {
             aviso: false,
         },
-        cliente: {
+        proveedor: {
             nombre: "",
-            direccion: "",
-            dni: "",
+            rif: "",
+            telefono: "",
             email: ""
         },
         errores: [],
@@ -21,16 +21,16 @@ new Vue({
             if (!this.validar()) return;
             this.cargando = true;
             HTTP
-                .post("/cliente", {
-                    dni: this.cliente.dni,
-                    nombre: this.cliente.nombre,
-                    direccion: this.cliente.direccion,
-                    email: this.cliente.email
+                .post("/proveedor", {
+                    nombre: this.proveedor.nombre,
+                    rif: this.proveedor.rif,
+                    telefono: this.proveedor.telefono,
+                    email: this.proveedor.email
                 })
                 .then(resultado => {
                     resultado && this.resetear();
                     this.mostrar.aviso = true;
-                    this.aviso.mensaje = resultado ? "Cliente agregado con éxito" : "Error agregando cliente. Intenta de nuevo";
+                    this.aviso.mensaje = resultado ? "Proveedor agregado con éxito" : "Error agregando proveedor. Intenta de nuevo";
                     this.aviso.tipo = resultado ? "is-success" : "is-danger";
                 })
                 .finally(() => this.cargando = false);
@@ -38,29 +38,29 @@ new Vue({
         },
         validar() {
             this.errores = [];
-            if (!this.cliente.nombre.trim())
+            if (!this.proveedor.nombre.trim())
                 this.errores.push("Escribe el nombre");
-            if (this.cliente.nombre.length > 255)
+            if (this.proveedor.nombre.length > 255)
                 this.errores.push("El nombre no debe contener más de 255 caracteres");
-            if (!this.cliente.direccion.trim())
-                this.errores.push("Escribe la direccion");
-            if (this.cliente.direccion.length > 255)
-                this.errores.push("La dirección no debe contener más de 255 caracteres");
-            if (!this.cliente.dni.trim())
+            if (!this.proveedor.telefono.trim())
+                this.errores.push("Escribe el telefono");
+            if (this.proveedor.telefono.length > 64)
+                this.errores.push("El telefono no debe contener más de 64 caracteres");
+            if (!this.proveedor.rif.trim())
                 this.errores.push("Escribe la cedula");
-            if (this.cliente.dni.length > 128)
+            if (this.proveedor.rif.length > 64)
                 this.errores.push("La cedula no debe contener más de 128 caracteres");
-            if (!this.cliente.email.trim())
+            if (!this.proveedor.email.trim())
                 this.errores.push("Escribe el correo");
-            if (this.cliente.email.length > 255)
+            if (this.proveedor.email.length > 255)
                 this.errores.push("El correo no debe contener más de 255 caracteres");
             return this.errores.length <= 0;
         },
         resetear() {
-            this.cliente.nombre = "";
-            this.cliente.direccion = "";
-            this.cliente.dni = "";
-            this.cliente.email = "";
+            this.proveedor.nombre = "";
+            this.proveedor.rif = "";
+            this.proveedor.telefono = "";
+            this.proveedor.email = "";
             this.errores = [];
             this.cargando = false;
             this.busqueda = "";
