@@ -51,6 +51,12 @@ Route::group(
                 Route::post("clientes/eliminar", "ClienteController@eliminarMuchos");
                 Route::put("cliente", "ClienteController@guardarCambios")->name("guardarCambiosDeCliente");
 
+                // Divisas
+                Route::get("divisas", "DivisasController@mostrar");
+                Route::get("divisas/buscar/{busqueda}", "DivisasController@buscar");
+                Route::delete("divisa/{id}", "DivisasController@eliminar");
+                Route::post("divisas/eliminar", "DivisasController@eliminarMuchas");
+
                 // Áreas
                 Route::get("areas", "AreasController@mostrar");
                 Route::get("areas/buscar/{busqueda}", "AreasController@buscar");
@@ -88,6 +94,14 @@ Route::group(
         Route::view("clientes/agregar", "clientes/agregar")->name("formularioAgregarCliente");
         Route::view("clientes/", "clientes/mostrar")->name("clientes");
         Route::view("clientes/editar/{id}", "clientes/editar")->name("formularioEditarCliente");
+
+        # VISTAS DIVISAS
+        Route::view("divisas/agregar", "agregar_divisa")->name("formularioDivisa");
+        Route::get("divisas/editar/{id}", "DivisasController@editar")->name("formularioEditarDivisa");
+        Route::view("divisas/", "divisas")->name("divisas");
+        # Otras cosas
+        Route::post("divisas/agregar", "DivisasController@agregar")->name("guardarDivisa");
+        Route::put("divisa/", "DivisasController@guardarCambios")->name("guardarCambiosDeDivisa");
 
         # VISTAS
         Route::view("areas/agregar", "agregar_area")->name("formularioArea");

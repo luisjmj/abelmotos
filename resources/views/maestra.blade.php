@@ -60,6 +60,11 @@
                         <i class="fa fa-box"></i>
                     </span>&nbsp;Inventario
                 </a>
+                <a class="navbar-item" href="{{ route("divisas") }}">
+                    <span class="icon has-text-danger">
+                        <i class="fa fa-home"></i>
+                    </span>&nbsp;Divisas
+                </a>
                 <a class="navbar-item" href="#">
                     <span class="icon has-text-info">
                         <i class="fa fa-chart-line"></i>
