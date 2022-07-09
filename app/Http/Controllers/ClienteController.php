@@ -16,6 +16,10 @@ class ClienteController extends Controller
             ->paginate(Config::get("constantes.paginas_en_paginacion"));
     }
 
+    public function mostrarTodos(Request $request) {
+        return response()->json(Cliente::all());
+    }
+
     public function agregar(AgregarClienteRequest $request) {
         $datosDecodificados = json_decode($request->getContent());
         $cliente = new Cliente();

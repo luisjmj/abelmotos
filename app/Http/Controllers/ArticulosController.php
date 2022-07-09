@@ -92,6 +92,11 @@ class ArticulosController extends Controller
             ->paginate(Config::get("constantes.paginas_en_paginacion"));
     }
 
+    public function mostrarTodos()
+    {
+        return response()->json(Articulo::all());
+    }
+
     public function porId(Request $peticion)
     {
         $idArticulo = $peticion->id;

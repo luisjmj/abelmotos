@@ -23,10 +23,10 @@
             margin-top: 5rem;
         }
 
-        .avatar {
+        /* .avatar {
             margin-top: -70px;
             padding-bottom: 20px;
-        }
+        } */
 
         .avatar img {
             padding: 5px;

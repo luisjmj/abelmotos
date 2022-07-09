@@ -65,6 +65,11 @@
                         <i class="fa fa-home"></i>
                     </span>&nbsp;Divisas
                 </a>
+                <a class="navbar-item" href="{{ route("facturas") }}">
+                    <span class="icon has-text-success">
+                        <i class="fa fa-home"></i>
+                    </span>&nbsp;Facturas
+                </a>
                 <a class="navbar-item" href="#">
                     <span class="icon has-text-info">
                         <i class="fa fa-chart-line"></i>

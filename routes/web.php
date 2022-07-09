@@ -45,6 +45,7 @@ Route::group(
                 // Clientes
                 Route::post("cliente", "ClienteController@agregar");
                 Route::get("clientes", "ClienteController@mostrar");
+                Route::get("clientes/todos", "ClienteController@mostrarTodos");
                 Route::get("cliente/{id}", "ClienteController@porId");
                 Route::get("clientes/buscar/{busqueda}", "ClienteController@buscar");
                 Route::delete("cliente/{id}", "ClienteController@eliminar");
@@ -73,6 +74,7 @@ Route::group(
                 // Artículos
                 Route::post("/articulo", "ArticulosController@agregar");
                 Route::get("/articulos", "ArticulosController@mostrar");
+                Route::get("/articulos/todos", "ArticulosController@mostrarTodos");
                 Route::get("articulo/{id}", "ArticulosController@porId");
                 Route::post("articulo/{id}", "ArticulosController@guardarCambios")->name("guardarCambiosDeArticulo");
 
@@ -85,6 +87,11 @@ Route::group(
                 // Fotos de artículos
                 Route::post("eliminar/foto/articulo/", "ArticulosController@eliminarFoto")->name("eliminarFotoDeArticulo");
 
+                // Facturas
+                Route::get("facturas", "FacturasController@mostrar");
+
+                // Metodos de Pago
+                Route::get('payment_methods', 'PaymentMethodController@index');
             });
 
         # PROVEEDORES
@@ -104,6 +111,10 @@ Route::group(
         # Otras cosas
         Route::post("divisas/agregar", "DivisasController@agregar")->name("guardarDivisa");
         Route::put("divisa/", "DivisasController@guardarCambios")->name("guardarCambiosDeDivisa");
+
+        # FACTURAS
+        Route::view("facturas/", "facturas/mostrar")->name("facturas");
+        Route::view("facturas/agregar", "facturas/agregar")->name("formularioAgregarFactura");
 
         # VISTAS
         Route::view("areas/agregar", "agregar_area")->name("formularioArea");
