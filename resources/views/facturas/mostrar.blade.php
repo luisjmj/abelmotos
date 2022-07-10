@@ -112,12 +112,10 @@
                                     </span>
                                 </button>
                             </th>
-                            <th>RIF</th>
-                            <th>Nombre</th>
-                            <th>Telefono</th>
-                            <th>Correo</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Anular</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -131,17 +129,9 @@
                                     </span>
                                     </button>
                                 </td>
-                                <td>{{factura.rif}}</td>
-                                <td>{{factura.nombre}}</td>
-                                <td>{{factura.telefono}}</td>
-                                <td>{{factura.email}}</td>
-                                <td>
-                                    <button @click="editar(factura)" class="button is-warning">
-                                    <span class="icon is-small">
-                                        <i class="fa fa-edit"></i>
-                                    </span>
-                                    </button>
-                                </td>
+                                <td>{{factura.id}}</td>
+                                <td>{{factura.cliente.nombre}}</td>
+                                <td>{{factura.created_at}}</td>
                                 <td>
                                     <button @click="eliminar(factura)" class="button is-danger"
                                             :class="{'is-loading': factura.eliminando}">

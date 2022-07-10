@@ -111,13 +111,13 @@ new Vue({
                 })
                 .then(resultado => {
                     this.mostrar.aviso = true;
-                    this.aviso.mensaje = !resultado.error ? "Artículo agregado con éxito" : "Error agregando artículo. Intenta de nuevo";
+                    this.aviso.mensaje = !resultado.error ? "Factura agregada con éxito" : "Error agregando factura. Intenta de nuevo";
                     this.aviso.tipo = !resultado.error ? "is-success" : "is-danger";
                     if(!resultado || !resultado.error) this.resetear();
                 })
                 .catch(error => {
                     this.mostrar.aviso = true;
-                    this.aviso.mensaje = "Error agregando artículo. Intenta de nuevo";
+                    this.aviso.mensaje = "Error agregando factura. Intenta de nuevo";
                     this.aviso.tipo = "is-danger";
                 })
                 .finally(() => this.cargando = false);

@@ -90,6 +90,7 @@ Route::group(
                 // Facturas
                 Route::get("facturas", "FacturasController@mostrar");
                 Route::post("facturas", "FacturasController@store");
+                Route::delete("factura/{factura}", "FacturasController@eliminar");
 
                 // Metodos de Pago
                 Route::get('payment_methods', 'PaymentMethodController@index');

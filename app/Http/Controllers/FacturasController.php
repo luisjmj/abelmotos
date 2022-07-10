@@ -26,4 +26,10 @@ class FacturasController extends Controller
             return response()->json(['error' => true, 'message' => 'Error al crear la factura, intente más tarde', 'server_error' => $e->getMessage()], 400);
         }
     }
+
+    public function eliminar(Factura $factura)
+    {
+        $factura->delete();
+        return response()->json(['error' => false], 200);
+    }
 }

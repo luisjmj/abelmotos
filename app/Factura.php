@@ -18,6 +18,13 @@ class Factura extends Model
         'remitente_id',
     ];
 
+    protected $with = [
+        'remitente',
+        'cliente',
+        'lineas_factura',
+        'divisas_factura'
+    ];
+
     // RELATIONSHIPS
 
     public function remitente()

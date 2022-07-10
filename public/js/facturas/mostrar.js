@@ -1,4 +1,3 @@
-const RUTA_EDITAR_FACTURA = URL_BASE + "/facturas/editar";
 new Vue({
     el: "#app",
     data: () => ({
@@ -58,9 +57,6 @@ new Vue({
                 this.refrescarSinQueImporteBusquedaOPagina();
             }
         }, 500),
-        editar(factura) {
-            window.location.href = `${RUTA_EDITAR_FACTURA}/${factura.id}`;
-        },
         eliminarMarcados() {
             if (!confirm("¿Eliminar todos los elementos marcados?")) return;
             let arregloParaEliminar = this.facturas.filter(factura => factura.marcado).map(factura => factura.id);
@@ -101,7 +97,7 @@ new Vue({
             Vue.set(factura, "marcado", !factura.marcado);
         },
         eliminar(factura) {
-            if (!confirm(`¿Eliminar factura ${factura.nombre}?`)) return;
+            if (!confirm(`Anular factura ${factura.id} del cliente ${factura.cliente.nombre}?`)) return;
             this.desmarcarTodos();
             let {id} = factura;
             Vue.set(factura, "eliminando", true);
