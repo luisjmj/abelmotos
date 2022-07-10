@@ -2,7 +2,7 @@ new Vue({
     el: "#app",
     data: () => ({
         clientes: [],
-        cliente: {},
+        cliente: 0,
         articulos: [],
         lineas_factura: [],
         payment_methods: [],
@@ -11,6 +11,12 @@ new Vue({
         selected_payment_methods: [],
         articulo_seleccionado: {},
         cantidad_seleccionada: 1,
+        errores: [],
+        cargando: false,
+        mostrar: {
+            aviso: false,
+        },
+        aviso: {}
     }),
     beforeMount() {
         this.cargarClientes();
@@ -69,6 +75,64 @@ new Vue({
                 },
                 0
             ).toFixed(2);
+        },
+        validar() {
+            this.errores = [];
+            if (this.cliente <= 0)
+                this.errores.push("Seleccione un cliente");
+            if (!this.lineas_factura.length)
+                this.errores.push("Agregue al menos un artículo");
+            if (!this.lineas_factura.every(linea => linea.cantidad > 0))
+                this.errores.push("La cantidad debe todos los articulos debe ser mayor a 0");
+            if (!this.selected_payment_methods.length)
+                this.errores.push("Agregue al menos un método de pago");
+            if (!this.selected_payment_methods.every(selected_payment_method => selected_payment_method.payment_amount > 0))
+                this.errores.push("El monto debe todos los métodos de pago debe ser mayor a 0");
+            if (this.total() !== this.totalMetodosPago())
+                this.errores.push("El total de los métodos de pago no coincide con el total de la factura");
+            return this.errores.length === 0;
+        },
+        guardar() {
+            this.mostrar.aviso = false;
+            if (!this.validar()) return;
+            this.cargando = true;
+            HTTP
+                .post("/facturas", {
+                    cliente_id: this.cliente,
+                    lineas_factura: this.lineas_factura.map(linea => (
+                        { articulo_id: linea.articulo.id, cantidad: linea.cantidad, sub_total: linea.articulo.precio_venta * linea.cantidad }
+                    )),
+                    divisas_factura: this.selected_payment_methods.map(selected_payment_method => ( {
+                        divisa_id: selected_payment_method.payment_method.divisa.id,
+                        monto: selected_payment_method.payment_amount,
+                        tasa: selected_payment_method.payment_method.divisa.tasa,
+                        payment_method_id: selected_payment_method.payment_method.id
+                    } )),
+                })
+                .then(resultado => {
+                    this.mostrar.aviso = true;
+                    this.aviso.mensaje = !resultado.error ? "Artículo agregado con éxito" : "Error agregando artículo. Intenta de nuevo";
+                    this.aviso.tipo = !resultado.error ? "is-success" : "is-danger";
+                    if(!resultado || !resultado.error) this.resetear();
+                })
+                .catch(error => {
+                    this.mostrar.aviso = true;
+                    this.aviso.mensaje = "Error agregando artículo. Intenta de nuevo";
+                    this.aviso.tipo = "is-danger";
+                })
+                .finally(() => this.cargando = false);
+
+        },
+        resetear() {
+            this.cliente = {},
+            this.lineas_factura = [],
+            this.payment_method = {},
+            this.payment_amount = 1,
+            this.selected_payment_methods = [],
+            this.articulo_seleccionado = {},
+            this.cantidad_seleccionada = 1,
+            this.errores = [],
+            this.cargando = false
         }
     },
 });

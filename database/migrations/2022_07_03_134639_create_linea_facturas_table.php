@@ -23,6 +23,7 @@ class CreateLineaFacturasTable extends Migration
             $table->foreign('articulo_id')
                 ->references('id')
                 ->on('articulos');
+            $table->unsignedDecimal("cantidad", 20, 4);
             $table->unsignedDecimal("sub_total", 20, 4);
             $table->timestamps();
             $table->softDeletes();
