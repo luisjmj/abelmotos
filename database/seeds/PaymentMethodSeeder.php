@@ -12,12 +12,47 @@ class PaymentMethodSeeder extends Seeder
      */
     public function run()
     {
-        $names = [ 'efectivo', 'banco de venezuela', 'debito', 'zelle', 'paypal', 'pago movil'];
+        $payment_methods = [
+            [
+                'nombre' => 'Dólares en Efectivo',
+                'divisa_id' => 1
+            ],
+            [
+                'nombre' => 'Pesos Colombianos en Efectivo',
+                'divisa_id' => 4
+            ],
+            [
+                'nombre' => 'Bolívares Banco de Venezuela',
+                'divisa_id' => 3
+            ],
+            [
+                'nombre' => 'Bolívares Débito',
+                'divisa_id' => 3
+            ],
+            [
+                'nombre' => 'Bolívares en Efectivo',
+                'divisa_id' => 3
+            ],
+            [
+                'nombre' => 'Zelle',
+                'divisa_id' => 1
+            ],
+            [
+                'nombre' => 'Paypal',
+                'divisa_id' => 1
+            ],
+            [
+                'nombre' => 'Pago Móvil',
+                'divisa_id' => 3
+            ],
+            [
+                'nombre' => 'Euros en Efectivo',
+                'divisa_id' => 2
+            ]
+        ];
 
-        foreach($names as $name){
-            PaymentMethod::create([
-                'nombre' => $name
-            ]);
+        foreach ($payment_methods as $payment_method) {
+            PaymentMethod::create($payment_method);
         }
     }
 }

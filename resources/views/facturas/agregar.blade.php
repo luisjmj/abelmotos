@@ -3,7 +3,7 @@
 @section("contenido")
     <div id="app" class="container" v-cloak>
         <div class="columns">
-            <div class="column is-half-tablet">
+            <div class="column is-three-fifths">
                 <h1 class="is-size-1">Agregar factura</h1>
 
                 <form method="POST" action="">
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="control">
-                            <input class="input" type="number" min=0 placeholder="Cantidad" v-model="cantidad_seleccionada">
+                            <input class="input" type="number" value="1" min=1 placeholder="Cantidad" v-model="cantidad_seleccionada">
                         </div>
                         <div class="control">
                             <button class="button is-info" type="button" v-on:click="agregarLinea()">
@@ -60,7 +60,11 @@
                                     $@{{new Number(linea.articulo.precio_venta).toFixed(2)}}
                                 </td>
                                 <td>
-                                    @{{linea.cantidad}}
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="input" type="number" min=1 placeholder="Cantidad" v-model="linea.cantidad">
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     $@{{new Number(linea.articulo.precio_venta * linea.cantidad).toFixed(2)}}
@@ -81,15 +85,68 @@
                             <th></th>
                         </tfoot>
                     </table>
-                    <div v-for="linea in lineas_factura" class="lineas-factura">
-
-                    </div>
                     @include("errores")
                     @include("notificacion")
                     <button class="button is-success mt-2">Guardar</button>
                     <a class="button is-primary" href="{{route("facturas")}}">Ver todas</a>
                 </form>
                 <br>
+            </div>
+
+            <div class="column is-two-fifths">
+                <h2 class="is-size-3">Agregar métodos de pago</h2>
+                <label class="label">Método de pago</label>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <div class="select is-full-width">
+                            <select v-model="payment_method">
+                                <option v-for="payment_method in payment_methods" :value="payment_method">@{{ payment_method.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <input class="input" type="number" min=1 placeholder="Monto" v-model="payment_amount">
+                    </div>
+                    <div class="control">
+                        <button class="button is-info" type="button" v-on:click="agregarMetodoPago()">
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Método de pago</th>
+                            <th>Monto</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(selected_payment_method, index) in selected_payment_methods">
+                            <td>
+                                @{{selected_payment_method.payment_method.nombre}}
+                            </td>
+                            <td>
+                                <div class="field">
+                                    <div class="control">
+                                        <input type="number" class="input" placeholder="Monto" v-model="selected_payment_method.payment_amount">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="button is-danger" type="button" v-on:click="removerMetodoPago(index)">
+                                    X
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <th></th>
+                        <th>Total (en Dólares): $@{{totalMetodosPago()}}</th>
+                        <th></th>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>

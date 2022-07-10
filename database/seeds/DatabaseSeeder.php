@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
             ProveedorSeeder::class,
             ArticuloSeeder::class,
             InventarioSeeder::class,
-            RemitenteFacturaSeeder::class
+            RemitenteFacturaSeeder::class,
+            DivisaSeeder::class,
+            PaymentMethodSeeder::class
         ]);
     }
 }
