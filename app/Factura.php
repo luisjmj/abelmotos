@@ -3,6 +3,7 @@
 namespace App;
 
 use App\RemitenteFactura;
+use App\Divisa;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,6 +17,7 @@ class Factura extends Model
     protected $fillable = [
         'cliente_id',
         'remitente_id',
+        'tasa_bs_dia'
     ];
 
     protected $with = [
@@ -23,6 +25,10 @@ class Factura extends Model
         'cliente',
         'lineas_factura',
         'divisas_factura'
+    ];
+
+    protected $casts = [
+        'tasa_bs_dia' => 'decimal:2'
     ];
 
     // RELATIONSHIPS
@@ -60,11 +66,19 @@ class Factura extends Model
         return number_format((float)$total, 2, '.', '');
     }
 
+    public function getTotalBS()
+    {
+        $total = $this->getTotal();
+
+        return $total * $this->tasa_bs_dia;
+    }
+
     public static function createWithAll($data)
     {
         $factura = Factura::create([
             'remitente_id' => RemitenteFactura::first()->id,
             'cliente_id' => $data['cliente_id'],
+            'tasa_bs_dia' => Divisa::find(3)->tasa,
         ]);
 
         foreach($data['lineas_factura'] as $linea) {

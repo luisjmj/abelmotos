@@ -86,7 +86,7 @@
         </div>
         <div class="columns">
             <div class="column">
-                <h5 class="is-size-5 has-text-right"><b>Total:</b> ${{ $factura->getTotal() }}</h5>
+                <h5 class="is-size-5 has-text-right"><b>Total:</b> ${{ $factura->getTotalBS() }}</h5>
             </div>
         </div>
         <div class="columns">
