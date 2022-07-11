@@ -83,11 +83,10 @@
                     </tbody>
                 </table>
             </div>
-            </div>
         </div>
         <div class="columns">
             <div class="column">
-                <h5><b>Total Factura: ${{ $factura->getTotal() }}</b></h5>
+                <h5><b>Total Factura BS: {{ $factura->getTotalBS() }}Bs.</b></h5>
             </div>
         </div>
         <div class="columns">

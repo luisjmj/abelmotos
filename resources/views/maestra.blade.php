@@ -70,11 +70,6 @@
                         <i class="fa fa-home"></i>
                     </span>&nbsp;Facturas
                 </a>
-                <a class="navbar-item" href="#">
-                    <span class="icon has-text-info">
-                        <i class="fa fa-chart-line"></i>
-                    </span>&nbsp;Reportes
-                </a>
             </div>
 
             <div class="navbar-end">
