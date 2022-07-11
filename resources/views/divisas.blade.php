@@ -114,7 +114,7 @@
                                 </button>
                             </th>
                             <th>Divisa</th>
-                            <th>Tasa en BS</th>
+                            <th>Tasa</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>

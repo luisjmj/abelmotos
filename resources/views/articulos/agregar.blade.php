@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Precio BS</label>
+                                    <label class="label">Precio</label>
                                     <div class="control">
                                         <input placeholder="Precio de venta" v-model="articulo.precioVenta"
                                                autocomplete="off"
