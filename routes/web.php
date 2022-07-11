@@ -117,6 +117,7 @@ Route::group(
         # FACTURAS
         Route::view("facturas/", "facturas/mostrar")->name("facturas");
         Route::view("facturas/agregar", "facturas/agregar")->name("formularioAgregarFactura");
+        Route::get("/facturas/{factura}", "FacturasController@ver")->name("facturas.ver");
 
         # VISTAS
         Route::view("areas/agregar", "agregar_area")->name("formularioArea");

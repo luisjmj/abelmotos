@@ -56,7 +56,8 @@ class Factura extends Model
         foreach ($this->lineas_factura as $linea) {
             $total += $linea->sub_total;
         }
-        return $total;
+
+        return number_format((float)$total, 2, '.', '');
     }
 
     public static function createWithAll($data)

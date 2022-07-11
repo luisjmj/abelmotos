@@ -15,4 +15,20 @@ class DivisaFactura extends Model
         'monto',
         'tasa'
     ];
+
+    protected $casts = [
+        'monto' => 'decimal:2',
+        'tasa' => 'decimal:2'
+    ];
+
+    protected $with = ['divisa'];
+
+    public function divisa() {
+        return $this->belongsTo('App\Divisa', 'divisa_id', 'id');
+    }
+
+    public function getCambioAlDolar()
+    {
+        return number_format($this->monto/$this->tasa, 2, '.', '');
+    }
 }

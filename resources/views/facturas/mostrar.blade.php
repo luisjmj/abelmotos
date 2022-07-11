@@ -115,6 +115,7 @@
                             <th>ID</th>
                             <th>Cliente</th>
                             <th>Fecha</th>
+                            <th>Ver</th>
                             <th>Anular</th>
                         </tr>
                         </thead>
@@ -132,6 +133,13 @@
                                 <td>{{factura.id}}</td>
                                 <td>{{factura.cliente.nombre}}</td>
                                 <td>{{factura.created_at}}</td>
+                                <td>
+                                    <a class="button is-info" :href="'/facturas/' + factura.id">
+                                        <span class="icon is-small">
+                                            <i class="fa fa-eye"></i>
+                                        </span>
+                                    </a>
+                                </td>
                                 <td>
                                     <button @click="eliminar(factura)" class="button is-danger"
                                             :class="{'is-loading': factura.eliminando}">

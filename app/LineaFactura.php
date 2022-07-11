@@ -17,4 +17,18 @@ class LineaFactura extends Model
         'cantidad',
         'sub_total',
     ];
+
+    protected $casts = [
+        'cantidad' => 'integer',
+        'sub_total' => 'decimal:2',
+    ];
+
+    public function articulo() {
+        return $this->belongsTo('App\Articulo', 'articulo_id', 'id');
+    }
+
+    public function getPrecioUnitario()
+    {
+        return number_format($this->sub_total/$this->cantidad, 2, '.', '');
+    }
 }

@@ -32,4 +32,13 @@ class FacturasController extends Controller
         $factura->delete();
         return response()->json(['error' => false], 200);
     }
+
+    public function ver(Factura $factura)
+    {
+        $data = [
+            'factura' => $factura,
+        ];
+
+        return view('facturas.ver')->with($data);
+    }
 }
